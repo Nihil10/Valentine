@@ -44,53 +44,53 @@
     transform: translateY(0);
   }
 
-  p {
-    font-size: 18px;
-    opacity: 0.85;
-    line-height: 1.6;
-  }
+  p { font-size: 18px; line-height: 1.6; opacity: 0.85; }
+  h1 { font-size: 26px; }
 
-  h1 {
-    font-size: 26px;
+  .buttons {
+    position: relative;
+    height: 120px;
+    margin-top: 20px;
   }
 
   button {
-    margin-top: 25px;
     padding: 12px 26px;
     border: none;
     border-radius: 999px;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
+    position: absolute;
+  }
+
+  #yesBtn {
+    left: 20%;
     background: #ff3b7a;
     color: white;
   }
 
-  /* 💖 FLOATING HEARTS */
+  #noBtn {
+    left: 60%;
+    background: #e5e7eb;
+  }
+
   #hearts {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    overflow: hidden;
-    z-index: 1;
   }
 
   .heart {
     position: absolute;
     bottom: -20px;
     font-size: 20px;
-    opacity: 0.7;
     animation: floatUp 4s linear forwards;
   }
 
   @keyframes floatUp {
-    to {
-      transform: translateY(-110vh);
-      opacity: 0;
-    }
+    to { transform: translateY(-110vh); opacity: 0; }
   }
 
-  /* 💌 FINAL MESSAGE */
   #finalMessage {
     position: fixed;
     inset: 0;
@@ -102,9 +102,7 @@
     font-size: 22px;
     text-align: center;
     opacity: 0;
-    pointer-events: none;
     transition: opacity 0.6s ease;
-    z-index: 3;
   }
 </style>
 </head>
@@ -113,8 +111,8 @@
 
 <div id="hearts"></div>
 
-<audio id="bgMusic" loop>
-  <source src="mayakam.mp3" type="audio/mpeg">
+<audio autoplay loop muted id="bgMusic">
+  <source src="perfect.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -146,19 +144,7 @@
 
   <div class="slide">
     <p>
-      I know we may not have countless moments yet… 😌<br><br>
-      But believe me…<br><br>
-      By the next Valentine’s Day,<br>
-      this very slide will be filled<br>
-      with memories, laughter,<br>
-      and maybe even tears of joy.
-    </p>
-    <button onclick="next()">Next</button>
-  </div>
-
-  <div class="slide">
-    <p>
-      I may not know everything about you yet…<br><br>
+      I may not know everything about you yet… 😌<br><br>
       Like whether you even like<br>
       these little cheesy things 😌<br><br>
       But I promise to learn,<br>
@@ -169,11 +155,12 @@
   </div>
 
   <div class="slide">
-    <h1>
-      Yoga ❤️<br><br>
-      Will you be my forever Valentine? 😌💖
-    </h1>
-    <button onclick="celebrate()">Yes 💖</button>
+    <h1>Yoga ❤️<br><br>Will you be my forever Valentine? 😌💖</h1>
+
+    <div class="buttons">
+      <button id="yesBtn" onclick="celebrate()">Yes 💖</button>
+      <button id="noBtn">No 😈</button>
+    </div>
   </div>
 
 </div>
@@ -186,50 +173,52 @@
 <script>
   let current = 0;
   const slides = document.querySelectorAll(".slide");
+  const noBtn = document.getElementById("noBtn");
   const music = document.getElementById("bgMusic");
 
-  /* 🎵 START MUSIC */
-  document.addEventListener("click", () => {
-    music.volume = 0.2;
-    music.play();
-  }, { once: true });
+  /* 🎵 AUTOPLAY FIX */
+  window.addEventListener("load", () => {
+    music.play().then(() => {
+      setTimeout(() => {
+        music.muted = false;
+        music.volume = 0.4;
+      }, 300);
+    });
+  });
 
   function next() {
     slides[current].classList.remove("active");
     current++;
     slides[current].classList.add("active");
 
-    /* 🎵 MUSIC SWELL */
-    if (current === 1) music.volume = 0.35;
-    if (current === 2) music.volume = 0.5;
-    if (current === 3) music.volume = 0.7;
-
-    if (current >= 1) createHeart();
+    createHeart();
   }
 
   function createHeart() {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerText = "💖";
-
     heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 10 + 18) + "px";
 
     document.getElementById("hearts").appendChild(heart);
     setTimeout(() => heart.remove(), 4000);
   }
 
-  function celebrate() {
-    music.volume = 1;
+  /* 😈 RUNNING NO BUTTON */
+  noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 80;
+    const y = Math.random() * 80;
 
-    confetti({
-      particleCount: 250,
-      spread: 140
-    });
+    noBtn.style.left = x + "%";
+    noBtn.style.top = y + "px";
+  });
+
+  function celebrate() {
+    confetti({ particleCount: 250, spread: 140 });
 
     setTimeout(() => {
       document.getElementById("finalMessage").style.opacity = 1;
-    }, 1800);
+    }, 1500);
   }
 </script>
 
