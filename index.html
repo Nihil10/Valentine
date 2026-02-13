@@ -5,172 +5,177 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Yoga ❤️</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  background-color: #FFE4E8;
-  font-family: 'Nunito', sans-serif;
+  margin: 0;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(135deg, #ffd6e7, #ffeef6);
   overflow: hidden;
-
-  background-image:
-    radial-gradient(circle at 15% 85%, #ffb3c1 0%, transparent 40%),
-    radial-gradient(circle at 85% 15%, #ff8fa3 0%, transparent 40%);
 }
 
-/* 💖 Hearts background */
-.hearts-bg {
+/* 💖 Floating hearts */
+#hearts {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.2;
-  font-size: 1.5rem;
-  animation: floatHearts 12s linear infinite;
 }
 
-@keyframes floatHearts {
-  from { transform: translateY(0); }
-  to { transform: translateY(-110vh); }
-}
-
-/* ✨ Slides */
-.slide {
+.heart {
   position: absolute;
-  text-align: center;
+  bottom: -20px;
+  font-size: 22px;
+  animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+
+.card {
   width: 90%;
   max-width: 620px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease;
+  background: white;
+  padding: 40px 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.slide {
+  display: none;
+  animation: fade 0.5s ease;
 }
 
 .slide.active {
-  opacity: 1;
-  transform: translateY(0);
+  display: block;
 }
 
-.slide p {
-  font-size: 1.3rem;
-  line-height: 1.7;
-}
-
-/* 😈 Final Screen */
-.container {
-  text-align: center;
-  display: none;
-}
-
-h1 {
-  font-size: 2.4rem;
-  color: #d63384;
-  margin-bottom: 20px;
-}
-
-.buttons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  margin-top: 30px;
+@keyframes fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 button {
+  margin-top: 20px;
+  padding: 12px 26px;
   border: none;
-  border-radius: 16px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: 900;
 }
 
-#yes-btn {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
+#yesBtn {
+  background: #ff3b7a;
   color: white;
-  font-size: 1.6rem;
-  padding: 18px 45px;
 }
 
-#no-btn {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
-  padding: 12px 28px;
+#noBtn {
+  background: #e5e7eb;
+}
+
+/* 🐼 Panda */
+#panda {
+  font-size: 70px;
+  margin-top: 15px;
+}
+
+/* 🐼 Jump */
+@keyframes pandaJump {
+  0%   { transform: translateY(0); }
+  25%  { transform: translateY(-35px); }
+  50%  { transform: translateY(0); }
+  75%  { transform: translateY(-18px); }
+  100% { transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<div class="hearts-bg">💕 💖 💗 💕 💖 💗</div>
+<div id="hearts"></div>
 
-<!-- 💖 Slide 1 -->
-<div class="slide active">
-  <p>
-    Hey Yoga ❤️<br><br>
-    I know you are scared about our future…<br>
-    And it is okay to be scared.<br><br>
-    It is okay to feel confused.<br><br>
-    Even I feel the same sometimes.<br><br>
-    But I just want to say this…
-  </p>
-</div>
-
-<!-- 💖 Slide 2 -->
-<div class="slide">
-  <p>
-    We’ve only met two times… 😌<br><br>
-    But those two meetings meant more to me<br>
-    than you may ever realise.<br><br>
-    Because in those moments…<br>
-    you gave me a feeling<br>
-    I had never known before.<br><br>
-    You gave me love. 💖
-  </p>
-</div>
-
-<!-- 💖 Slide 3 -->
-<div class="slide">
-  <p>
-    I may not know everything about you yet… 😌<br><br>
-    Like whether you even like<br>
-    these little cheesy things 😌<br><br>
-    But I promise to learn,<br>
-    understand,<br>
-    and stand by you 💖
-  </p>
-</div>
-
-<!-- 😈 Final Screen -->
-<div class="container">
-  <h1>Yoga ❤️</h1>
-  <p>Will you be my forever Valentine? 💖</p>
-
-  <div class="buttons">
-    <button id="yes-btn" onclick="celebrate()">Yes 💖</button>
-    <button id="no-btn">No 😈</button>
-  </div>
-</div>
-
-<audio id="bg-music" loop>
-  <source src="perfect.mp3">
+<audio id="bgMusic" loop>
+  <source src="perfect.mp3" type="audio/mpeg">
 </audio>
 
+<div class="card">
+
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <p>
+      Hey Yoga ❤️<br><br>
+      I know you are scared about our future…<br>
+      And it is okay to be scared.<br><br>
+      It is okay to feel confused.<br><br>
+      Even I feel the same sometimes.<br><br>
+      But I just want to say this…
+    </p>
+    <button onclick="next()">Next 💖</button>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide">
+    <p>
+      We’ve only met two times… 😌<br><br>
+      But those two meetings meant more to me<br>
+      than you may ever realise.<br><br>
+      Because in those moments…<br>
+      you gave me a feeling<br>
+      I had never known before.<br><br>
+      You gave me love. 💖
+    </p>
+    <button onclick="next()">Next 💖</button>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide">
+    <p>
+      I may not know everything about you yet… 😌<br><br>
+      Like whether you even like<br>
+      these little cheesy things 😌<br><br>
+      But I promise to learn,<br>
+      understand,<br>
+      and stand by you 💖
+    </p>
+    <button onclick="next()">Next 💖</button>
+  </div>
+
+  <!-- Final Question -->
+  <div class="slide">
+    <h2>Yoga ❤️</h2>
+    <p>Will you be my forever Valentine? 💖</p>
+
+    <button id="yesBtn" onclick="celebrate()">Yes 💖</button>
+    <button id="noBtn">No 😈</button>
+  </div>
+
+  <!-- Ending -->
+  <div class="slide">
+    <h2>HAPPY VALENTINE'S DAY 💖</h2>
+    <h3>THANGAME ❤️</h3>
+
+    <div id="panda">🐼</div>
+  </div>
+
+</div>
+
 <script>
-let currentSlide = 0
+let current = 0
 const slides = document.querySelectorAll(".slide")
-const container = document.querySelector(".container")
-const noBtn = document.getElementById("no-btn")
-const yesBtn = document.getElementById("yes-btn")
-const music = document.getElementById("bg-music")
+const noBtn = document.getElementById("noBtn")
+const music = document.getElementById("bgMusic")
 
 /* 🎵 Music */
 document.addEventListener("click", () => {
@@ -178,20 +183,26 @@ document.addEventListener("click", () => {
   music.play().catch(() => {})
 }, { once: true })
 
-/* ✨ Slide transitions */
-setInterval(() => {
-  slides[currentSlide].classList.remove("active")
-  currentSlide++
+function next() {
+  slides[current].classList.remove("active")
+  current++
+  slides[current].classList.add("active")
 
-  if (currentSlide >= slides.length) {
-    container.style.display = "block"
-    return
-  }
+  createHeart()
+}
 
-  slides[currentSlide].classList.add("active")
-}, 2500)
+function createHeart() {
+  const heart = document.createElement("div")
+  heart.className = "heart"
+  heart.innerText = "💖"
+  heart.style.left = Math.random() * 100 + "vw"
 
-/* 😈 Running NO button */
+  document.getElementById("hearts").appendChild(heart)
+
+  setTimeout(() => heart.remove(), 4000)
+}
+
+/* 😈 Running NO */
 noBtn.addEventListener("mouseover", () => {
   noBtn.style.position = "fixed"
   noBtn.style.left = Math.random() * 80 + "vw"
@@ -199,16 +210,20 @@ noBtn.addEventListener("mouseover", () => {
 })
 
 function celebrate() {
-  confetti({ particleCount: 200, spread: 120 })
-  container.innerHTML = `
-    <h1>HAPPY VALENTINE'S DAY 💖</h1>
-    <p style="font-size:1.5rem; margin-top:20px;">
-      THANGAME ❤️
-    </p>
-  `
+  confetti({ particleCount: 220, spread: 140 })
+
+  slides[current].classList.remove("active")
+  current++
+  slides[current].classList.add("active")
+
+  setInterval(createHeart, 300)
+
+  setTimeout(() => {
+    document.getElementById("panda").style.animation =
+      "pandaJump 0.6s ease-in-out infinite"
+  }, 400)
 }
 </script>
 
 </body>
 </html>
-
