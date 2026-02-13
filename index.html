@@ -1,269 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Yoga ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Yoga ❤️</title>
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
-<style>
-  body {
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-family: system-ui, sans-serif;
-    background: linear-gradient(135deg, #ffd6e7, #ffeef6);
-    overflow: hidden;
-  }
-
-  .card {
-    width: 90%;
-    max-width: 620px;
-    background: white;
-    padding: 40px 25px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    position: relative;
-    z-index: 2;
-  }
-
-  .slide {
-    display: none;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.5s ease;
-  }
-
-  .slide.active {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  p {
-    font-size: 18px;
-    line-height: 1.6;
-    opacity: 0.85;
-  }
-
-  h1 {
-    font-size: 26px;
-  }
-
-  .buttons {
-    position: relative;
-    height: 120px;
-    margin-top: 20px;
-  }
-
-  button {
-    padding: 12px 26px;
-    border: none;
-    border-radius: 999px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-  }
-
-  #yesBtn {
-    left: 20%;
-    background: #ff3b7a;
-    color: white;
-  }
-
-  #noBtn {
-    left: 60%;
-    background: #e5e7eb;
-  }
-
-  #hearts {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  /* 💖 FLOATING HEARTS */
-  .heart {
-    position: absolute;
-    bottom: -20px;
-    font-size: 20px;
-    animation:
-      floatUp 4s linear forwards,
-      jump 0.6s ease-in-out infinite;
-  }
-
-  @keyframes floatUp {
-    to {
-      transform: translateY(-110vh);
-      opacity: 0;
-    }
-  }
-
-  /* 😌 SUBTLE STICKER BOUNCE */
-  @keyframes jump {
-    0%   { transform: translateY(0); }
-    25%  { transform: translateY(-12px); }
-    50%  { transform: translateY(0); }
-    75%  { transform: translateY(-6px); }
-    100% { transform: translateY(0); }
-  }
-
-  /* 🐼 PANDA */
-  #panda {
-    font-size: 70px;
-    margin-top: 20px;
-    display: inline-block;
-    animation: none;
-  }
-
-  /* 🐼 PANDA JUMP */
-  @keyframes pandaJump {
-    0%   { transform: translateY(0); }
-    25%  { transform: translateY(-35px); }
-    50%  { transform: translateY(0); }
-    75%  { transform: translateY(-18px); }
-    100% { transform: translateY(0); }
-  }
-</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div class="hearts-bg"></div>
 
-<div id="hearts"></div>
+    <div class="container">
+        <h1>Yoga ❤️</h1>
 
-<!-- 🎵 MUSIC -->
-<audio id="bgMusic" loop>
-  <source src="perfect.mp3" type="audio/mpeg">
-</audio>
+        <div class="gif-container">
+            <img id="cat-gif"
+                 src="https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif">
+        </div>
 
-<div class="card">
+        <div class="buttons">
+            <button id="yes-btn" onclick="handleYesClick()">Yes 💖</button>
+            <button id="no-btn" onclick="handleNoClick()">No 😈</button>
+        </div>
 
-  <!-- Slide 1 -->
-  <div class="slide active">
-    <p>
-      Hey Yoga ❤️<br><br>
-      I know you are scared about our future…<br>
-      And it is okay to be scared.<br><br>
-      It is okay to feel confused.<br><br>
-      Even I feel the same sometimes.<br><br>
-      But I just want to say this…
-    </p>
-    <button onclick="next()">Next</button>
-  </div>
-
-  <!-- Slide 2 -->
-  <div class="slide">
-    <p>
-      We’ve only met two times… 😌<br><br>
-      But those two meetings meant more to me<br>
-      than you may ever realise.<br><br>
-      Because in those moments…<br>
-      you gave me a feeling<br>
-      I had never known before.<br><br>
-      You gave me love. 💖
-    </p>
-    <button onclick="next()">Next</button>
-  </div>
-
-  <!-- Slide 3 -->
-  <div class="slide">
-    <p>
-      I may not know everything about you yet… 😌<br><br>
-      Like whether you even like<br>
-      these little cheesy things 😌<br><br>
-      But I promise to learn,<br>
-      understand,<br>
-      and stand by you 💖
-    </p>
-    <button onclick="next()">Next</button>
-  </div>
-
-  <!-- Question Slide -->
-  <div class="slide">
-    <h1>Yoga ❤️<br><br>Will you be my forever Valentine? 😌💖</h1>
-
-    <div class="buttons">
-      <button id="yesBtn" onclick="celebrate()">Yes 💖</button>
-      <button id="noBtn">No 😈</button>
+        <div id="tease-toast"></div>
     </div>
-  </div>
 
-  <!-- Final Slide -->
-  <div class="slide">
-    <h1>
-      HAPPY VALENTINE’S DAY 💖<br><br>
-      THANGAME ❤️
-    </h1>
+    <audio id="bg-music" loop>
+        <source src="perfect.mp3" type="audio/mpeg">
+    </audio>
 
-    <div id="panda">🐼</div>
-  </div>
+    <button id="music-toggle" onclick="toggleMusic()">🔊</button>
 
-</div>
-
-<script>
-  let current = 0;
-  const slides = document.querySelectorAll(".slide");
-  const noBtn = document.getElementById("noBtn");
-  const music = document.getElementById("bgMusic");
-
-  /* 🎵 MUSIC START */
-  document.addEventListener("click", () => {
-      if (music.paused) {
-          music.volume = 0.5;
-          music.play().catch(() => {});
-      }
-  }, { once: true });
-
-  function next() {
-    slides[current].classList.remove("active");
-    current++;
-    slides[current].classList.add("active");
-
-    createHeart();
-  }
-
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-
-    document.getElementById("hearts").appendChild(heart);
-
-    setTimeout(() => heart.remove(), 4000);
-  }
-
-  /* 😈 RUNNING NO BUTTON */
-  noBtn.addEventListener("mouseover", () => {
-    noBtn.style.left = Math.random() * 80 + "%";
-    noBtn.style.top = Math.random() * 80 + "px";
-  });
-
-  function celebrate() {
-    confetti({
-      particleCount: 250,
-      spread: 140
-    });
-
-    slides[current].classList.remove("active");
-    current++;
-    slides[current].classList.add("active");
-
-    setInterval(createHeart, 300);
-
-    /* 🐼 PANDA JUMP */
-    setTimeout(() => {
-      document.getElementById("panda").style.animation =
-        "pandaJump 0.6s ease-in-out infinite";
-    }, 400);
-  }
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
