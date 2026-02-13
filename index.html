@@ -34,7 +34,7 @@
   .slide {
     display: none;
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
     transition: all 0.5s ease;
   }
 
@@ -44,8 +44,15 @@
     transform: translateY(0);
   }
 
-  p { font-size: 18px; line-height: 1.6; opacity: 0.85; }
-  h1 { font-size: 26px; }
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
 
   .buttons {
     position: relative;
@@ -78,6 +85,7 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
+    overflow: hidden;
   }
 
   .heart {
@@ -88,7 +96,10 @@
   }
 
   @keyframes floatUp {
-    to { transform: translateY(-110vh); opacity: 0; }
+    to {
+      transform: translateY(-110vh);
+      opacity: 0;
+    }
   }
 
   #finalMessage {
@@ -111,7 +122,8 @@
 
 <div id="hearts"></div>
 
-<audio autoplay loop muted id="bgMusic">
+<!-- 🎵 CLEAN AUDIO -->
+<audio id="bgMusic" loop>
   <source src="perfect.mp3" type="audio/mpeg">
 </audio>
 
@@ -176,15 +188,13 @@
   const noBtn = document.getElementById("noBtn");
   const music = document.getElementById("bgMusic");
 
-  /* 🎵 AUTOPLAY FIX */
-  window.addEventListener("load", () => {
-    music.play().then(() => {
-      setTimeout(() => {
-        music.muted = false;
-        music.volume = 0.4;
-      }, 300);
-    });
-  });
+  /* 🎵 GUARANTEED MUSIC START */
+  document.addEventListener("click", () => {
+      if (music.paused) {
+          music.volume = 0.5;
+          music.play().catch(err => console.log(err));
+      }
+  }, { once: true });
 
   function next() {
     slides[current].classList.remove("active");
@@ -201,16 +211,14 @@
     heart.style.left = Math.random() * 100 + "vw";
 
     document.getElementById("hearts").appendChild(heart);
+
     setTimeout(() => heart.remove(), 4000);
   }
 
   /* 😈 RUNNING NO BUTTON */
   noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * 80;
-    const y = Math.random() * 80;
-
-    noBtn.style.left = x + "%";
-    noBtn.style.top = y + "px";
+    noBtn.style.left = Math.random() * 80 + "%";
+    noBtn.style.top = Math.random() * 80 + "px";
   });
 
   function celebrate() {
@@ -224,3 +232,4 @@
 
 </body>
 </html>
+
