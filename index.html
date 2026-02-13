@@ -1,38 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Day Card</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f7f7f7; }
-        .slide { display: none; }
-        #audio-player { margin-top: 20px; }
-    </style>
-</head>
-<body>
-    <h1>Happy Valentine's Day!</h1>
-    <div id="slides">
-        <div class="slide">Valentine's Day is a day to celebrate love!</div>
-        <div class="slide">Share love with your friends and family!</div>
-        <div class="slide">Make this day special with heartfelt gestures!</div>
-    </div>
-    <audio id="audio-player" controls>
-        <source src="audio/valentine_song.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        slides[currentSlide].style.display = 'block';
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Yoga ❤️</title>
 
-        function showNextSlide() {
-            slides[currentSlide].style.display = 'none';
-            currentSlide = (currentSlide + 1) % totalSlides;
-            slides[currentSlide].style.display = 'block';
-        }
-        setInterval(showNextSlide, 3000); // Change slide every 3 seconds
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<style>
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: system-ui, sans-serif;
+    background: linear-gradient(135deg, #ffd6e7, #ffeef6);
+    overflow: hidden;
+  }
+
+  .card {
+    width: 90%;
+    max-width: 620px;
+    background: white;
+    padding: 40px 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    position: relative;
+    z-index: 2;
+  }
+
+  .slide {
+    display: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.5s ease;
+  }
+
+  .slide.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  p {
+    font-size: 18px;
+    opacity: 0.85;
+    line-height: 1.6;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  button {
+    margin-top: 25px;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #ff3b7a;
+    color: white;
+  }
+
+  /* 💖 FLOATING HEARTS */
+  #hearts {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .heart {
+    position: absolute;
+    bottom: -20px;
+    font-size: 20px;
+    opacity: 0.7;
+    animation: floatUp 4s linear forwards;
+  }
+
+  @keyframes floatUp {
+    to {
+      transform: translateY(-110vh);
+      opacity: 0;
+    }
+  }
+
+  /* 💌 FINAL MESSAGE */
+  #finalMessage {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 22px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+    z-index: 3;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<audio id="bgMusic" loop>
+  <source src="mayakam.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+
+  <div class="slide active">
+    <p>
+      Hey Yoga ❤️<br><br>
+      I know you are scared about our future…<br>
+      And it is okay to be scared.<br><br>
+      It is okay to feel confused.<br><br>
+      Even I feel the same sometimes.<br><br>
+      But I just want to say this…
+    </p>
+    <button onclick="next()">Next</button>
+  </div>
+
+  <div class="slide">
+    <p>
+      We’ve only met two times… 😌<br><br>
+      But those two meetings meant more to me<br>
+      than you may ever realise.<br><br>
+      Because in those moments…<br>
+      you gave me a feeling<br>
+      I had never known before.<br><br>
+      You gave me love. 💖
+    </p>
+    <button onclick="next()">Next</button>
+  </div>
+
+  <div class="slide">
+    <p>
+      I know we may not have countless moments yet… 😌<br><br>
+      But believe me…<br><br>
+      By the next Valentine’s Day,<br>
+      this very slide will be filled<br>
+      with memories, laughter,<br>
+      and maybe even tears of joy.
+    </p>
+    <button onclick="next()">Next</button>
+  </div>
+
+  <div class="slide">
+    <p>
+      I may not know everything about you yet…<br><br>
+      Like whether you even like<br>
+      these little cheesy things 😌<br><br>
+      But I promise to learn,<br>
+      understand,<br>
+      and stand by you 💖
+    </p>
+    <button onclick="next()">Next</button>
+  </div>
+
+  <div class="slide">
+    <h1>
+      Yoga ❤️<br><br>
+      Will you be my forever Valentine? 😌💖
+    </h1>
+    <button onclick="celebrate()">Yes 💖</button>
+  </div>
+
+</div>
+
+<div id="finalMessage">
+  This is just the beginning… 😌💖<br>
+  And I’m really glad it’s you.
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll(".slide");
+  const music = document.getElementById("bgMusic");
+
+  /* 🎵 START MUSIC */
+  document.addEventListener("click", () => {
+    music.volume = 0.2;
+    music.play();
+  }, { once: true });
+
+  function next() {
+    slides[current].classList.remove("active");
+    current++;
+    slides[current].classList.add("active");
+
+    /* 🎵 MUSIC SWELL */
+    if (current === 1) music.volume = 0.35;
+    if (current === 2) music.volume = 0.5;
+    if (current === 3) music.volume = 0.7;
+
+    if (current >= 1) createHeart();
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 10 + 18) + "px";
+
+    document.getElementById("hearts").appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }
+
+  function celebrate() {
+    music.volume = 1;
+
+    confetti({
+      particleCount: 250,
+      spread: 140
+    });
+
+    setTimeout(() => {
+      document.getElementById("finalMessage").style.opacity = 1;
+    }, 1800);
+  }
+</script>
+
 </body>
 </html>
