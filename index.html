@@ -95,7 +95,7 @@
     font-size: 20px;
     animation:
       floatUp 4s linear forwards,
-      bounce 0.6s ease-in-out infinite;
+      jump 0.6s ease-in-out infinite;
   }
 
   @keyframes floatUp {
@@ -105,9 +105,12 @@
     }
   }
 
-  @keyframes bounce {
+  /* 😌 SUBTLE STICKER BOUNCE */
+  @keyframes jump {
     0%   { transform: translateY(0); }
-    50%  { transform: translateY(-10px); }
+    25%  { transform: translateY(-12px); }
+    50%  { transform: translateY(0); }
+    75%  { transform: translateY(-6px); }
     100% { transform: translateY(0); }
   }
 
@@ -115,7 +118,8 @@
   #panda {
     font-size: 70px;
     margin-top: 20px;
-    display: block;
+    display: inline-block;
+    animation: none;
   }
 
   /* 🐼 PANDA JUMP */
@@ -182,6 +186,84 @@
 
   <!-- Question Slide -->
   <div class="slide">
-    <h1>Yoga ❤️<br><br>Will you be my forever Valentine? 💖</h1>
+    <h1>Yoga ❤️<br><br>Will you be my forever Valentine? 😌💖</h1>
 
-    <div class="but
+    <div class="buttons">
+      <button id="yesBtn" onclick="celebrate()">Yes 💖</button>
+      <button id="noBtn">No 😈</button>
+    </div>
+  </div>
+
+  <!-- Final Slide -->
+  <div class="slide">
+    <h1>
+      HAPPY VALENTINE’S DAY 💖<br><br>
+      THANGAME ❤️
+    </h1>
+
+    <div id="panda">🐼</div>
+  </div>
+
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll(".slide");
+  const noBtn = document.getElementById("noBtn");
+  const music = document.getElementById("bgMusic");
+
+  /* 🎵 MUSIC START */
+  document.addEventListener("click", () => {
+      if (music.paused) {
+          music.volume = 0.5;
+          music.play().catch(() => {});
+      }
+  }, { once: true });
+
+  function next() {
+    slides[current].classList.remove("active");
+    current++;
+    slides[current].classList.add("active");
+
+    createHeart();
+  }
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+
+    document.getElementById("hearts").appendChild(heart);
+
+    setTimeout(() => heart.remove(), 4000);
+  }
+
+  /* 😈 RUNNING NO BUTTON */
+  noBtn.addEventListener("mouseover", () => {
+    noBtn.style.left = Math.random() * 80 + "%";
+    noBtn.style.top = Math.random() * 80 + "px";
+  });
+
+  function celebrate() {
+    confetti({
+      particleCount: 250,
+      spread: 140
+    });
+
+    slides[current].classList.remove("active");
+    current++;
+    slides[current].classList.add("active");
+
+    setInterval(createHeart, 300);
+
+    /* 🐼 PANDA JUMP */
+    setTimeout(() => {
+      document.getElementById("panda").style.animation =
+        "pandaJump 0.6s ease-in-out infinite";
+    }, 400);
+  }
+</script>
+
+</body>
+</html>
