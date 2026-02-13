@@ -1,161 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Will you be my Valentine?</title>
-
-  <!-- Confetti library -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-
-  <style>
-    :root {
-      --bg1: #ffd6e7;
-      --bg2: #ffeef6;
-      --card: #ffffffcc;
-      --yes: #ff3b7a;
-      --yesHover: #ff1f68;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100svh;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-      font-family: system-ui, sans-serif;
-      overflow: hidden;
-      padding: 16px;
-    }
-
-    #confettiCanvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    .card {
-      width: min(720px, 92vw);
-      padding: 26px 22px;
-      background: var(--card);
-      backdrop-filter: blur(10px);
-      border-radius: 22px;
-      text-align: center;
-      box-shadow: 0 18px 60px rgba(0,0,0,.15);
-    }
-
-    h1 {
-      font-size: clamp(26px, 4vw, 44px);
-      margin: 12px 0 18px;
-    }
-
-    .button-zone {
-      position: relative;
-      width: min(520px, 92%);
-      height: 150px;
-      margin: 0 auto;
-      touch-action: none;
-    }
-
-    button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 16px 24px;
-      font-size: 18px;
-      font-weight: 800;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(0,0,0,.14);
-      transition: transform .12s ease, background .12s ease;
-    }
-
-    #yesBtn {
-      left: 18%;
-      background: #ff3b7a;
-      color: white;
-    }
-
-    #noBtn {
-      left: 62%;
-      background: #e5e7eb;
-    }
-
-    .result {
-      display: none;
-      margin-top: 18px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Card</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f7f7f7; }
+        .slide { display: none; }
+        #audio-player { margin-top: 20px; }
+    </style>
 </head>
-
 <body>
-  <canvas id="confettiCanvas"></canvas>
+    <h1>Happy Valentine's Day!</h1>
+    <div id="slides">
+        <div class="slide">Valentine's Day is a day to celebrate love!</div>
+        <div class="slide">Share love with your friends and family!</div>
+        <div class="slide">Make this day special with heartfelt gestures!</div>
+    </div>
+    <audio id="audio-player" controls>
+        <source src="audio/valentine_song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        slides[currentSlide].style.display = 'block';
 
-  <main class="card">
-    <h1>Yoga, will you be my Valentine? ❤️</h1>
-
-    <section class="button-zone" id="zone">
-      <button id="yesBtn">Yes</button>
-      <button id="noBtn">No</button>
-    </section>
-
-    <section class="result" id="result">
-      <h2>YAY! 🎉</h2>
-    </section>
-  </main>
-
-  <script>
-    const zone = document.getElementById("zone");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const result = document.getElementById("result");
-
-    const confettiCanvas = document.getElementById("confettiCanvas");
-
-    function resizeCanvas() {
-      confettiCanvas.width = window.innerWidth;
-      confettiCanvas.height = window.innerHeight;
-    }
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    const confettiInstance = confetti.create(confettiCanvas);
-
-    let yesScale = 1;
-
-    function growYes() {
-      yesScale += 0.1;
-      yesBtn.style.transform = `translateY(-50%) scale(${yesScale})`;
-    }
-
-    function moveNo() {
-      const x = Math.random() * 400;
-      const y = Math.random() * 100;
-
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-
-      growYes();
-    }
-
-    noBtn.addEventListener("mouseover", moveNo);
-
-    yesBtn.addEventListener("click", () => {
-      zone.style.display = "none";
-      result.style.display = "block";
-
-      confettiInstance({
-        particleCount: 300,
-        spread: 140
-      });
-    });
-  </script>
+        function showNextSlide() {
+            slides[currentSlide].style.display = 'none';
+            currentSlide = (currentSlide + 1) % totalSlides;
+            slides[currentSlide].style.display = 'block';
+        }
+        setInterval(showNextSlide, 3000); // Change slide every 3 seconds
+    </script>
 </body>
 </html>
